@@ -29,12 +29,6 @@ function restart()
     blocks = helperlib.deepcopy(start_blocks)
 end
 
-function love.keypressed(key)
-    if key == "r" then
-        restart()
-    end
-end
-
 block = {}
 function block.create(start_x, start_y, target_x, target_y, start_time, end_time, angle)
     return {x=start_x, y=start_y, start_x=start_x, start_y=start_y, target_x=target_x, target_y=target_y, timer=0, start_time=start_time, end_time=end_time, angle=angle}
@@ -78,6 +72,7 @@ blocks = {}
 start_blocks = {}
 table.insert(start_blocks, block.create(200, 120, 32, 32, 2, 4, angle_types.right))
 restart()
+stopped = false
 
 function love.load()
     scaling = 2
@@ -87,6 +82,12 @@ function love.load()
 end
 
 function love.draw()
+    -- pre-update bullshitery
+    local mx, my = love.mouse.getPosition()
+    if stopped == true then
+        restart()
+    end
+
     love.graphics.scale(scaling, scaling)
     love.graphics.clear(0.19607843137254902, 0.1843137254901961, 0.1607843137254902)
 
@@ -95,8 +96,42 @@ function love.draw()
         block.update(b)
     end
 
-    -- ui
+    -- UI
     set1bitColor(white)
     love.graphics.rectangle("fill", 0, 240, 512, 16)
     love.graphics.rectangle("fill", 400, 0, 112, 256)
+
+    -- play button
+    set1bitColor(black)
+    love.graphics.rectangle("fill", 2, 242, 12, 12)
+    set1bitColor(white)
+    love.graphics.polygon("fill", 4, 243, 4, 252, 12, 248)
+
+    -- stop
+    set1bitColor(black)
+    love.graphics.rectangle("fill", 16, 242, 12, 12)
+    set1bitColor(white)
+    love.graphics.rectangle("fill", 19, 244, 2, 8)
+    love.graphics.rectangle("fill", 23, 244, 2, 8)
+
+    -- add button
+    set1bitColor(black)
+    love.graphics.rectangle("fill", 30, 242, 12, 12)
+    set1bitColor(white)
+    love.graphics.rectangle("fill", 35, 244, 2, 8)
+    love.graphics.rectangle("fill", 32, 247, 8, 2)
+end
+
+function love.mousepressed( x, y, button, istouch, presses )
+    if button == 1 then
+        local mx, my = love.mouse.getPosition()
+        local mx, my = mx/scaling, my/scaling
+        if (2 < mx and mx < 14) and (242 < my and my < 254) then
+            stopped = false
+            restart()
+        end
+        if (16 < mx and mx < 28) and (242 < my and my < 254) then
+            stopped = true
+        end
+    end
 end

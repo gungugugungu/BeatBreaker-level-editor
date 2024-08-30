@@ -73,7 +73,7 @@ function deepcopy(o, seen)
     seen = seen or {}
     if o == nil then return nil end
     if seen[o] then return seen[o] end
-  
+
     local no
     if type(o) == 'table' then
         no = {}
