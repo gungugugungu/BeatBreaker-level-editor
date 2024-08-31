@@ -1,5 +1,13 @@
 # What's this?
-This is a level editor software created for my *upcoming* game **BeatBreaker** for the Playdate. The level editor isn't mean't for the Playdate though. The game is currently either unannounced or there are traces of it in discord or reddit, I'm not sure when someone would look at this.
+This is a level editor software created for my *upcoming* game **BeatBreaker** for the Playdate. 
 
----
-## **THIS README IS WIP, ONCE THE APP IS COMPLETED THERE WILL BE A FULL GUIDE ON HOW TO USE IT**
+# How to use?
+## Bottom panel buttons
+### Play button
+The play button start the song from the start point you set.
+### Stop button
+The stop button stops the song. (not pausing)
+### Add button
+The add button adds a new block, and opens the menu to set it's parameters.
+## Side panel
+The side panel displays the list of blocks in the song, sorted by their start times. If you click on any block it'll start editing it and if you click the delete button you'll delete it. Be aware, there is **no undo** button so measure twice, cut once.
