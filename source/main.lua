@@ -213,7 +213,6 @@ function love.mousepressed( x, y, button, istouch, presses )
                 edit_menu_open = false
             end
 
-            -- start time
             if (162 < mx and mx < 194) and (106 < my and my < 118) then
                 currently_editing_str = "start"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
@@ -235,6 +234,32 @@ function love.mousepressed( x, y, button, istouch, presses )
             elseif (162 < mx and mx < 174) and (128 < my and my < 140) then
                 currently_editing_str = "angle"
                 possible_letters = {"l", "r", "u", "d", "n"}
+            end
+
+            -- add to list
+            if (336 < mx and mx < 348) and (128 < my and my < 140) then
+                local fresh_block = block.create(tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), function()
+                    if str_angle == "l" then
+                        return angle_types.left
+                    elseif str_angle == "r" then
+                        return angle_types.right
+                    elseif str_angle == "u" then
+                        return angle_types.up
+                    elseif str_angle == "d" then
+                        return angle_types.down
+                    else
+                        return angle_types.none
+                    end
+                end)
+                print(fresh_block["start_x"])
+                print(fresh_block["start_y"])
+                print(fresh_block["target_x"])
+                print(fresh_block["target_y"])
+                print(fresh_block["start_time"])
+                print(fresh_block["end_time"])
+                print(fresh_block["angle"])
+                table.insert(start_blocks, fresh_block)
+                edit_menu_open = false
             end
         end
     end
