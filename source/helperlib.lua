@@ -90,4 +90,15 @@ function deepcopy(o, seen)
 end
 helperlib.deepcopy = deepcopy
 
+function table_contains(tbl, x)
+    found = false
+    for _, v in pairs(tbl) do
+        if v == x then 
+            found = true
+        end
+    end
+    return found
+end
+helperlib.table_contains = table_contains
+
 return helperlib

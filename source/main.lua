@@ -215,27 +215,40 @@ function love.mousepressed( x, y, button, istouch, presses )
 
             -- start time
             if (162 < mx and mx < 194) and (106 < my and my < 118) then
-                currently_editing_str = str_start
+                currently_editing_str = "start"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
             elseif (195 < mx and mx < 227) and (106 < my and my < 118) then
-                currently_editing_str = str_end
+                currently_editing_str = "end"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
             elseif (228 < mx and mx < 252) and (106 < my and my < 118) then
-                currently_editing_str = str_start_x
+                currently_editing_str = "startx"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
             elseif (253 < mx and mx < 277) and (106 < my and my < 118) then
-                currently_editing_str = str_start_y
+                currently_editing_str = "starty"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
             elseif (278 < mx and mx < 302) and (106 < my and my < 118) then
-                currently_editing_str = str_end_x
+                currently_editing_str = "endx"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
             elseif (303 < mx and mx < 327) and (106 < my and my < 118) then
-                currently_editing_str = str_end_y
+                currently_editing_str = "endy"
                 possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
             elseif (162 < mx and mx < 174) and (128 < my and my < 140) then
-                currently_editing_str = str_angle
+                currently_editing_str = "angle"
                 possible_letters = {"l", "r", "u", "d", "n"}
             end
+        end
+    end
+end
+
+function love.keypressed(key, scancode, isrepeat)
+    if helperlib.table_contains(possible_letters, key) then
+        if currently_editing_str == "start" then
+            str_start = str_start .. key
+        end
+    end
+    if key == "backspace" then
+        if currently_editing_str == "start" then
+            str_start = str_start:sub(1, -2)
         end
     end
 end
