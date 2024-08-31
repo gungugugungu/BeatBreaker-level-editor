@@ -1,3 +1,20 @@
+--- HI!!!!!!!!!!!!
+--- I'm truly wondering what you are doing here.
+--- You might be wondering what in the holy diddly dick is going
+--- on in this piece of junk. 
+--- Pretty self explanatory; I made this in 2 days without any
+--- experience with love2d in the past month.
+--- That might seem as if it wasn't that big of a deal, but
+--- instead of not using love2d, I did not just *not use* love2d
+--- but I also used the Playdate SDK for at least 4 hours a day.
+--- 
+--- I hope that explains this mess of a codebase, I swear the game
+--- is a lot better.
+--- 
+--- Also,
+--- The song included in the repo is "Damage" by F.O.O.L., my
+--- favourite level in Beat Saber. Hope you like it, it's the best I had.
+
 helperlib = require "helperlib"
 
 white = "white"
