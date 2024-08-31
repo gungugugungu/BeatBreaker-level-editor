@@ -73,6 +73,7 @@ start_blocks = {}
 table.insert(start_blocks, block.create(200, 120, 32, 32, 2, 4, angle_types.right))
 restart()
 stopped = false
+edit_menu_open = false
 
 function love.load()
     scaling = 2
@@ -107,7 +108,7 @@ function love.draw()
     set1bitColor(white)
     love.graphics.polygon("fill", 4, 243, 4, 252, 12, 248)
 
-    -- stop
+    -- stop button
     set1bitColor(black)
     love.graphics.rectangle("fill", 16, 242, 12, 12)
     set1bitColor(white)
@@ -120,18 +121,43 @@ function love.draw()
     set1bitColor(white)
     love.graphics.rectangle("fill", 35, 244, 2, 8)
     love.graphics.rectangle("fill", 32, 247, 8, 2)
+
+    -- edit menu
+    if edit_menu_open == true then
+        set1bitColor(white)
+        love.graphics.rectangle("fill", 160, 104, 192, 48)
+        set1bitColor(black)
+        love.graphics.setLineWidth(2)
+        love.graphics.rectangle("line", 160, 104, 192, 48)
+    end
 end
 
 function love.mousepressed( x, y, button, istouch, presses )
     if button == 1 then
         local mx, my = love.mouse.getPosition()
         local mx, my = mx/scaling, my/scaling
-        if (2 < mx and mx < 14) and (242 < my and my < 254) then
-            stopped = false
-            restart()
-        end
-        if (16 < mx and mx < 28) and (242 < my and my < 254) then
-            stopped = true
+
+        -- play button
+        if edit_menu_open == false then
+            if (2 < mx and mx < 14) and (242 < my and my < 254) then
+                stopped = false
+                restart()
+            end
+
+            -- stop button
+            if (16 < mx and mx < 28) and (242 < my and my < 254) then
+                stopped = true
+            end
+
+            -- add button
+            if (30 < mx and mx < 42) and (242 < my and my < 254) then
+                edit_menu_open = true
+            end
+        else
+            -- leaving add menu
+            if (160 > mx or mx > 352) or (104 > my or my > 152) then
+                edit_menu_open = false
+            end
         end
     end
 end
