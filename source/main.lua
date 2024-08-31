@@ -27,6 +27,7 @@ end
 function restart()
     start = love.timer.getTime()
     blocks = helperlib.deepcopy(start_blocks)
+    song:play()
 end
 
 block = {}
@@ -70,11 +71,9 @@ end
 ---- VARIABLES ----
 blocks = {}
 start_blocks = {}
-table.insert(start_blocks, block.create(200, 120, 32, 32, 2, 4, angle_types.right))
-restart()
 stopped = true
 edit_menu_open = false
-font = love.graphics.newFont("font.ttf")
+font = love.graphics.newFont("font.ttf", 12, "none")
 currently_editing_str = nil
 possible_letters = {}
 str_start = "0"
@@ -84,12 +83,17 @@ str_start_y = "120"
 str_end_x = "200"
 str_end_y = "120"
 str_angle = "n"
+song = love.audio.newSource("song.wav", "static")
+
+restart()
 
 function love.load()
     scaling = 2
     start = love.timer.getTime()
     love.window.setMode(512*scaling, 256*scaling)
     love.window.setTitle("BeatBreaker level editor")
+
+    love.graphics.setDefaultFilter("nearest", "nearest", 1)
 end
 
 function love.draw()
@@ -97,6 +101,7 @@ function love.draw()
     local mx, my = love.mouse.getPosition()
     if stopped == true then
         restart()
+        song:stop()
     end
 
     love.graphics.scale(scaling, scaling)
@@ -131,6 +136,11 @@ function love.draw()
     set1bitColor(white)
     love.graphics.rectangle("fill", 35, 244, 2, 8)
     love.graphics.rectangle("fill", 32, 247, 8, 2)
+
+    -- elapsed time
+    set1bitColor(black)
+    local text = love.graphics.newText(font, math.floor(getElapsedTime()*10)/10)
+    love.graphics.draw(text, 44, 243, 0, 1, 1)
 
     -- edit menu
     if edit_menu_open == true then
