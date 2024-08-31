@@ -72,7 +72,7 @@ blocks = {}
 start_blocks = {}
 table.insert(start_blocks, block.create(200, 120, 32, 32, 2, 4, angle_types.right))
 restart()
-stopped = false
+stopped = true
 edit_menu_open = false
 font = love.graphics.newFont("font.ttf")
 currently_editing_str = nil
@@ -238,19 +238,20 @@ function love.mousepressed( x, y, button, istouch, presses )
 
             -- add to list
             if (336 < mx and mx < 348) and (128 < my and my < 140) then
-                local fresh_block = block.create(tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), function()
-                    if str_angle == "l" then
-                        return angle_types.left
-                    elseif str_angle == "r" then
-                        return angle_types.right
-                    elseif str_angle == "u" then
-                        return angle_types.up
-                    elseif str_angle == "d" then
-                        return angle_types.down
-                    else
-                        return angle_types.none
-                    end
-                end)
+                local angl = angle_types.none
+                if str_angle == "l" then
+                    angl = angle_types.left
+                end
+                if str_angle == "r" then
+                    angl = angle_types.right
+                end
+                if str_angle == "u" then
+                    angl = angle_types.up
+                end
+                if str_angle == "d" then
+                    angl = angle_types.down
+                end
+                local fresh_block = block.create(tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), angl)
                 print(fresh_block["start_x"])
                 print(fresh_block["start_y"])
                 print(fresh_block["target_x"])
