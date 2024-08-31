@@ -74,6 +74,16 @@ table.insert(start_blocks, block.create(200, 120, 32, 32, 2, 4, angle_types.righ
 restart()
 stopped = false
 edit_menu_open = false
+font = love.graphics.newFont("font.ttf")
+currently_editing_str = nil
+possible_letters = {}
+str_start = "0"
+str_end = "0"
+str_start_x = "200"
+str_start_y = "120"
+str_end_x = "200"
+str_end_y = "120"
+str_angle = "n"
 
 function love.load()
     scaling = 2
@@ -129,6 +139,50 @@ function love.draw()
         set1bitColor(black)
         love.graphics.setLineWidth(2)
         love.graphics.rectangle("line", 160, 104, 192, 48)
+
+        love.graphics.rectangle("fill", 162, 106, 32, 12)
+        love.graphics.rectangle("fill", 195, 106, 32, 12)
+        love.graphics.rectangle("fill", 228, 106, 24, 12)
+        love.graphics.rectangle("fill", 253, 106, 24, 12)
+        love.graphics.rectangle("fill", 278, 106, 24, 12)
+        love.graphics.rectangle("fill", 303, 106, 24, 12)
+        love.graphics.rectangle("fill", 162, 128, 12, 12)
+        love.graphics.rectangle("fill", 336, 128, 12, 12)
+            set1bitColor(white)
+            love.graphics.rectangle("fill", 341, 130, 2, 8)
+            love.graphics.rectangle("fill", 338, 133, 8, 2)
+
+        set1bitColor(black)
+        text = love.graphics.newText(font, "Start time")
+        love.graphics.draw(text, 162, 120, 0, 0.5, 0.5)
+        text = love.graphics.newText(font, "End time")
+        love.graphics.draw(text, 195, 120, 0, 0.5, 0.5)
+        text = love.graphics.newText(font, "Start X")
+        love.graphics.draw(text, 228, 120, 0, 0.5, 0.5)
+        text = love.graphics.newText(font, "Start Y")
+        love.graphics.draw(text, 253, 120, 0, 0.5, 0.5)
+        text = love.graphics.newText(font, "End X")
+        love.graphics.draw(text, 278, 120, 0, 0.5, 0.5)
+        text = love.graphics.newText(font, "End Y")
+        love.graphics.draw(text, 303, 120, 0, 0.5, 0.5)
+        text = love.graphics.newText(font, "Angle: l, r, u, d, n")
+        love.graphics.draw(text, 175, 132, 0, 0.5, 0.5)
+
+        set1bitColor(white)
+        text = love.graphics.newText(font, str_start)
+        love.graphics.draw(text, 164, 108, 0, 0.75, 0.75)
+        text = love.graphics.newText(font, str_end)
+        love.graphics.draw(text, 197, 108, 0, 0.75, 0.75)
+        text = love.graphics.newText(font, str_start_x)
+        love.graphics.draw(text, 230, 108, 0, 0.75, 0.75)
+        text = love.graphics.newText(font, str_start_y)
+        love.graphics.draw(text, 255, 108, 0, 0.75, 0.75)
+        text = love.graphics.newText(font, str_end_x)
+        love.graphics.draw(text, 280, 108, 0, 0.75, 0.75)
+        text = love.graphics.newText(font, str_end_y)
+        love.graphics.draw(text, 305, 108, 0, 0.75, 0.75)
+        text = love.graphics.newText(font, str_angle)
+        love.graphics.draw(text, 164, 130, 0, 0.75, 0.75)
     end
 end
 
@@ -157,6 +211,30 @@ function love.mousepressed( x, y, button, istouch, presses )
             -- leaving add menu
             if (160 > mx or mx > 352) or (104 > my or my > 152) then
                 edit_menu_open = false
+            end
+
+            -- start time
+            if (162 < mx and mx < 194) and (106 < my and my < 118) then
+                currently_editing_str = str_start
+                possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
+            elseif (195 < mx and mx < 227) and (106 < my and my < 118) then
+                currently_editing_str = str_end
+                possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
+            elseif (228 < mx and mx < 252) and (106 < my and my < 118) then
+                currently_editing_str = str_start_x
+                possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+            elseif (253 < mx and mx < 277) and (106 < my and my < 118) then
+                currently_editing_str = str_start_y
+                possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+            elseif (278 < mx and mx < 302) and (106 < my and my < 118) then
+                currently_editing_str = str_end_x
+                possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+            elseif (303 < mx and mx < 327) and (106 < my and my < 118) then
+                currently_editing_str = str_end_y
+                possible_letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+            elseif (162 < mx and mx < 174) and (128 < my and my < 140) then
+                currently_editing_str = str_angle
+                possible_letters = {"l", "r", "u", "d", "n"}
             end
         end
     end
