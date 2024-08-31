@@ -11,3 +11,13 @@ The stop button stops the song. (not pausing)
 The add button adds a new block, and opens the menu to set it's parameters.
 ## Side panel
 The side panel displays the list of blocks in the song, sorted by their start times. If you click on any block it'll start editing it and if you click the delete button you'll delete it. Be aware, there is **no undo** button so measure twice, cut once.
+## Other stuff
+### Songs
+The app accepts any wav or mp3 file. Just put any song with the title "song.wav" or "song.mp3" and the app will play it after a restart.
+## Saving
+The app autosaves every time you make a change or just quit the app.
+## Importing to the game
+Take the song.lua and the song.wav/song.mp3 file and put in the game's files here:
+``` data/levels/ ```
+
+# **The code is quite janky, but the app works well already. If there any bugs or questions, feel free to open a Github issue**
