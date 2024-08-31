@@ -101,6 +101,7 @@ str_end_x = "200"
 str_end_y = "120"
 str_angle = "n"
 song = love.audio.newSource("song.wav", "static")
+sidebar_scroll_offset = 0
 
 restart()
 
@@ -163,9 +164,9 @@ function love.draw()
     for _, b in ipairs(start_blocks) do
         set1bitColor(black)
         love.graphics.setLineWidth(2)
-        love.graphics.rectangle("line", 402, 2+(19*(_-1)), 108, 16)
+        love.graphics.rectangle("line", 402, 2+(19*(_-1))+sidebar_scroll_offset, 108, 16)
         local text = love.graphics.newText(font, "Start time: " .. b["start_time"])
-        love.graphics.draw(text, 404, 4+(19*(_-1)), 0, 1, 1)
+        love.graphics.draw(text, 404, 4+(19*(_-1))+sidebar_scroll_offset, 0, 1, 1)
     end
 
     -- edit menu
@@ -348,5 +349,12 @@ function love.keypressed(key, scancode, isrepeat)
         if currently_editing_str == "angle" then
             str_angle = str_angle:sub(1, -2)
         end
+    end
+end
+
+function love.wheelmoved(x, y)
+    sidebar_scroll_offset = sidebar_scroll_offset+(y*4)
+    if sidebar_scroll_offset > 0 then
+        sidebar_scroll_offset = 0
     end
 end
