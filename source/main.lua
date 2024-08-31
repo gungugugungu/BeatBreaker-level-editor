@@ -245,10 +245,46 @@ function love.keypressed(key, scancode, isrepeat)
         if currently_editing_str == "start" then
             str_start = str_start .. key
         end
+        if currently_editing_str == "end" then
+            str_end = str_end .. key
+        end
+        if currently_editing_str == "startx" then
+            str_start_x = str_start_x .. key
+        end
+        if currently_editing_str == "starty" then
+            str_start_y = str_start_y .. key
+        end
+        if currently_editing_str == "endx" then
+            str_end_x = str_end_x .. key
+        end
+        if currently_editing_str == "endy" then
+            str_end_y = str_end_y .. key
+        end
+        if currently_editing_str == "angle" then
+            str_angle = str_angle .. key
+        end
     end
     if key == "backspace" then
         if currently_editing_str == "start" then
             str_start = str_start:sub(1, -2)
+        end
+        if currently_editing_str == "end" then
+            str_end = str_end:sub(1, -2)
+        end
+        if currently_editing_str == "startx" then
+            str_start_x = str_start_x:sub(1, -2)
+        end
+        if currently_editing_str == "starty" then
+            str_start_y = str_start_y:sub(1, -2)
+        end
+        if currently_editing_str == "endx" then
+            str_end_x = str_end_x:sub(1, -2)
+        end
+        if currently_editing_str == "endy" then
+            str_end_y = str_end_y:sub(1, -2)
+        end
+        if currently_editing_str == "angle" then
+            str_angle = str_angle:sub(1, -2)
         end
     end
 end
