@@ -159,6 +159,15 @@ function love.draw()
     local text = love.graphics.newText(font, math.floor(getElapsedTime()*10)/10)
     love.graphics.draw(text, 44, 243, 0, 1, 1)
 
+    -- block list
+    for _, b in ipairs(start_blocks) do
+        set1bitColor(black)
+        love.graphics.setLineWidth(2)
+        love.graphics.rectangle("line", 402, 2+(19*(_-1)), 108, 16)
+        local text = love.graphics.newText(font, "Start time: " .. b["start_time"])
+        love.graphics.draw(text, 404, 4+(19*(_-1)), 0, 1, 1)
+    end
+
     -- edit menu
     if edit_menu_open == true then
         set1bitColor(white)
