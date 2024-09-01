@@ -15,17 +15,9 @@ The side panel displays the list of blocks in the song, sorted by the time you m
 ### Songs
 The app accepts any wav file. Just put any song with the title "song.wav" and the app will play it after a restart.
 ## Saving
-Once you press the S button, the app will copy a lua table to your clipboard.
+The app saves when you press "S", and loads when you press "O"
 ## Importing to the game
-Create a *song_name*.lua *(of course do not call it song_name)* file in this pattern:
-```
--- replace song name with what you want your song to be called
--- paste the table put onto your clipboard by the app
-song_name = {}
-return song_name
-```
- [Then convert the song.wav file to a PDA](https://ejb.github.io/wav-pda-converter/), rename it to the exact name you called the lua file and the table in it, and then put the 2 files and put in the game's files here:
-
+You'll find a "save.json" file in the app's directory. Take it along with the  [PDA converted song.wav](https://ejb.github.io/wav-pda-converter/) and rename them both to your levels name, and put them both in this folder in the game's files:
 > data/levels/
 
 This is quite janky yet, and it might be fixed when I lose motivation on another project and need a break.

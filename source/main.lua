@@ -16,6 +16,7 @@
 --- favourite level in Beat Saber. Hope you like it, it's the best I had.
 
 helperlib = require "helperlib"
+json = require "dkjson"
 
 white = "white"
 black = "black"
@@ -101,7 +102,7 @@ function table.tostring(tbl, indent)
     local result = "{\n"
     indent = indent or " "
     local nextIndent = indent .. " "
-    
+
     for key, value in pairs(tbl) do
         -- Handle the key
         if type(key) == "string" then
@@ -124,33 +125,23 @@ function table.tostring(tbl, indent)
     return result
 end
 
+function save_table(tbl, filename)
+    local file = io.open(filename, "w")
+    file:write(json.encode(tbl))
+    file:close()
+end
+
+-- Load the table
+function load_table(filename)
+    local file = io.open(filename, "r")
+    local data = file:read("*a")
+    file:close()
+    return json.decode(data)
+end
+
 ---- VARIABLES ----
 blocks = {}
 start_blocks = {}
-table.insert(start_blocks, {
-    {
-        start_x = 200,
-        start_y = 120,
-        target_x = 200,
-        target_y = 120,
-        start_time = 0,
-        end_time = 0,
-        x = 200,
-        y = 120,
-        angle = 0,
-    },
-    {
-        start_x = 200,
-        start_y = 120,
-        target_x = 200,
-        target_y = 120,
-        start_time = 0,
-        end_time = 0,
-        x = 200,
-        y = 120,
-        angle = 3,
-    },
-})
 stopped = true
 edit_menu_open = false
 font = love.graphics.newFont("font.ttf", 12, "none")
@@ -423,7 +414,10 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
     if key == "s" then
-        love.system.setClipboardText(table.tostring(start_blocks, " "))
+        save_table(start_blocks, "save.json")
+    end
+    if key == "o" then
+        start_blocks = load_table("save.json")
     end
     if helperlib.table_contains(possible_letters, key) then
         if currently_editing_str == "start" then
