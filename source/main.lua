@@ -247,6 +247,13 @@ function love.mousepressed( x, y, button, istouch, presses )
             if (30 < mx and mx < 42) and (242 < my and my < 254) then
                 edit_menu_open = true
             end
+
+            for _, b in ipairs(start_blocks) do
+                love.graphics.rectangle("line", 495, 5+(19*(_-1))+sidebar_scroll_offset, 10, 10)
+                if (495 < mx and mx < 505) and (5+(19*(_-1))+sidebar_scroll_offset < my and my < 15+(19*(_-1))+sidebar_scroll_offset) then
+                    table.remove(start_blocks, _)
+                end
+            end
         else
             -- leaving add menu
             if (160 > mx or mx > 352) or (104 > my or my > 152) then
