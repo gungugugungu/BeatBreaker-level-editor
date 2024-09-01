@@ -44,12 +44,13 @@ end
 function restart()
     start = love.timer.getTime()
     blocks = helperlib.deepcopy(start_blocks)
+    song:stop()
     song:play()
 end
 
 block = {}
 function block.create(start_x, start_y, target_x, target_y, start_time, end_time, angle)
-    return {x=start_x, y=start_y, start_x=start_x, start_y=start_y, target_x=target_x, target_y=target_y, timer=0, start_time=start_time, end_time=end_time, angle=angle}
+    return {x=start_x, y=start_y, start_x=start_x, start_y=start_y, target_x=target_x, target_y=target_y, start_time=start_time, end_time=end_time, angle=angle}
 end
 function block.change(b, start_x, start_y, target_x, target_y, start_time, end_time, angle)
     b["x"] = start_x
@@ -96,9 +97,60 @@ function block.update(b)
     end
 end
 
+function table.tostring(tbl, indent)
+    local result = "{\n"
+    indent = indent or " "
+    local nextIndent = indent .. " "
+    
+    for key, value in pairs(tbl) do
+        -- Handle the key
+        if type(key) == "string" then
+            key = string.format("%q", key)
+        end
+        
+        -- Handle the value
+        if type(value) == "table" then
+            value = table.tostring(value, nextIndent)
+        elseif type(value) == "string" then
+            value = string.format("%q", value)
+        else
+            value = tostring(value)
+        end
+        
+        result = result .. nextIndent .. "[" .. key .. "] = " .. value .. ",\n"
+    end
+    
+    result = result .. indent .. "}"
+    return result
+end
+
 ---- VARIABLES ----
 blocks = {}
 start_blocks = {}
+table.insert(start_blocks, {
+    {
+        start_x = 200,
+        start_y = 120,
+        target_x = 200,
+        target_y = 120,
+        start_time = 0,
+        end_time = 0,
+        x = 200,
+        y = 120,
+        angle = 0,
+    },
+    {
+        start_x = 200,
+        start_y = 120,
+        target_x = 200,
+        target_y = 120,
+        start_time = 0,
+        end_time = 0,
+        x = 200,
+        y = 120,
+        angle = 3,
+    },
+})
 stopped = true
 edit_menu_open = false
 font = love.graphics.newFont("font.ttf", 12, "none")
@@ -370,6 +422,9 @@ function love.mousepressed( x, y, button, istouch, presses )
 end
 
 function love.keypressed(key, scancode, isrepeat)
+    if key == "s" then
+        love.system.setClipboardText(table.tostring(start_blocks, " "))
+    end
     if helperlib.table_contains(possible_letters, key) then
         if currently_editing_str == "start" then
             str_start = str_start .. key
