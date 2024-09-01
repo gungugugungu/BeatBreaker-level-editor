@@ -167,6 +167,9 @@ function love.draw()
         love.graphics.rectangle("line", 402, 2+(19*(_-1))+sidebar_scroll_offset, 108, 16)
         local text = love.graphics.newText(font, "Start time: " .. b["start_time"])
         love.graphics.draw(text, 404, 4+(19*(_-1))+sidebar_scroll_offset, 0, 1, 1)
+        love.graphics.rectangle("line", 495, 5+(19*(_-1))+sidebar_scroll_offset, 10, 10)
+        love.graphics.line(495, 5+(19*(_-1))+sidebar_scroll_offset, 505, 15+(19*(_-1))+sidebar_scroll_offset)
+        love.graphics.line(505, 5+(19*(_-1))+sidebar_scroll_offset, 495, 15+(19*(_-1))+sidebar_scroll_offset)
     end
 
     -- edit menu
@@ -289,13 +292,6 @@ function love.mousepressed( x, y, button, istouch, presses )
                     angl = angle_types.down
                 end
                 local fresh_block = block.create(tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), angl)
-                print(fresh_block["start_x"])
-                print(fresh_block["start_y"])
-                print(fresh_block["target_x"])
-                print(fresh_block["target_y"])
-                print(fresh_block["start_time"])
-                print(fresh_block["end_time"])
-                print(fresh_block["angle"])
                 table.insert(start_blocks, fresh_block)
                 edit_menu_open = false
             end
