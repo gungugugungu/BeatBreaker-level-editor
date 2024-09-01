@@ -51,6 +51,17 @@ block = {}
 function block.create(start_x, start_y, target_x, target_y, start_time, end_time, angle)
     return {x=start_x, y=start_y, start_x=start_x, start_y=start_y, target_x=target_x, target_y=target_y, timer=0, start_time=start_time, end_time=end_time, angle=angle}
 end
+function block.change(b, start_x, start_y, target_x, target_y, start_time, end_time, angle)
+    b["x"] = start_x
+    b["y"] = start_y
+    b["start_x"] = start_x
+    b["start_y"] = start_y
+    b["target_x"] = target_x
+    b["target_y"] = target_y
+    b["start_time"] = start_time
+    b["end_time"] = end_time
+    b["angle"] = angle
+end
 function block.draw(b)
     set1bitColor(white)
     love.graphics.setLineWidth(1)
@@ -92,6 +103,7 @@ stopped = true
 edit_menu_open = false
 font = love.graphics.newFont("font.ttf", 12, "none")
 currently_editing_str = nil
+currently_editing_block = nil
 possible_letters = {}
 str_start = "0"
 str_end = "0"
@@ -246,12 +258,45 @@ function love.mousepressed( x, y, button, istouch, presses )
             -- add button
             if (30 < mx and mx < 42) and (242 < my and my < 254) then
                 edit_menu_open = true
+                currently_editing_block = nil
+                str_start = "0"
+                str_end = "0"
+                str_start_x = "200"
+                str_start_y = "120"
+                str_end_x = "200"
+                str_end_y = "120"
+                str_angle = "n"
             end
 
             for _, b in ipairs(start_blocks) do
-                love.graphics.rectangle("line", 495, 5+(19*(_-1))+sidebar_scroll_offset, 10, 10)
-                if (495 < mx and mx < 505) and (5+(19*(_-1))+sidebar_scroll_offset < my and my < 15+(19*(_-1))+sidebar_scroll_offset) then
-                    table.remove(start_blocks, _)
+                love.graphics.rectangle("line", 402, 2+(19*(_-1))+sidebar_scroll_offset, 108, 16)
+                if (402 < mx and mx < 510) and (2+(19*(_-1))+sidebar_scroll_offset < my and my < 17+(19*(_-1))+sidebar_scroll_offset) then
+                    if (495 < mx and mx < 505) and (5+(19*(_-1))+sidebar_scroll_offset < my and my < 15+(19*(_-1))+sidebar_scroll_offset) then
+                        table.remove(start_blocks, _)
+                    else
+                        edit_menu_open = true
+                        str_start = tostring(b["start_time"])
+                        str_end = tostring(b["end_time"])
+                        str_start_x = tostring(b["start_x"])
+                        str_start_y = tostring(b["start_y"])
+                        str_end_x = tostring(b["target_y"])
+                        str_end_y = tostring(b["target_x"])
+                        local angl = "n"
+                        if b["angle"] == angle_types.left then
+                            angl = "l"
+                        end
+                        if b["angle"] == angle_types.right then
+                            angl = "r"
+                        end
+                        if b["angle"] == angle_types.up then
+                            angl = "u"
+                        end
+                        if b["angle"] == angle_types.down then
+                            angl = "d"
+                        end
+                        str_angle = angl
+                        currently_editing_block = b
+                    end
                 end
             end
         else
@@ -285,22 +330,40 @@ function love.mousepressed( x, y, button, istouch, presses )
 
             -- add to list
             if (336 < mx and mx < 348) and (128 < my and my < 140) then
-                local angl = angle_types.none
-                if str_angle == "l" then
-                    angl = angle_types.left
+                if currently_editing_block == nil then
+                    local angl = angle_types.none
+                    if str_angle == "l" then
+                        angl = angle_types.left
+                    end
+                    if str_angle == "r" then
+                        angl = angle_types.right
+                    end
+                    if str_angle == "u" then
+                        angl = angle_types.up
+                    end
+                    if str_angle == "d" then
+                        angl = angle_types.down
+                    end
+                    local fresh_block = block.create(tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), angl)
+                    table.insert(start_blocks, fresh_block)
+                    edit_menu_open = false
+                else
+                    local angl = angle_types.none
+                    if str_angle == "l" then
+                        angl = angle_types.left
+                    end
+                    if str_angle == "r" then
+                        angl = angle_types.right
+                    end
+                    if str_angle == "u" then
+                        angl = angle_types.up
+                    end
+                    if str_angle == "d" then
+                        angl = angle_types.down
+                    end
+                    block.change(currently_editing_block, tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), angl)
+                    edit_menu_open = false
                 end
-                if str_angle == "r" then
-                    angl = angle_types.right
-                end
-                if str_angle == "u" then
-                    angl = angle_types.up
-                end
-                if str_angle == "d" then
-                    angl = angle_types.down
-                end
-                local fresh_block = block.create(tonumber(str_start_x), tonumber(str_start_y), tonumber(str_end_x), tonumber(str_end_y), tonumber(str_start), tonumber(str_end), angl)
-                table.insert(start_blocks, fresh_block)
-                edit_menu_open = false
             end
         end
     end
