@@ -155,7 +155,7 @@ str_start_y = "120"
 str_end_x = "200"
 str_end_y = "120"
 str_angle = "n"
-song = love.audio.newSource("song.wav", "static")
+song = love.audio.newSource("song.mp3", "static")
 sidebar_scroll_offset = 0
 
 restart()
